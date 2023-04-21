@@ -1,18 +1,48 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>PaintingsApp</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<html lang="en">
+<head>
+  <title>Painting Website</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
-  </head>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= javascript_pack_tag 'application' %>
 
-  <body><%= render "shared/navbar" %>
-<%= render "shared/flashes" %>
 
-    <%= yield %>
-  </body>
+
+  <%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css", crossorigin: "anonymous" %>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <%= javascript_include_tag "https://code.jquery.com/jquery-3.6.0.min.js", crossorigin: "anonymous" %>
+  <%= javascript_include_tag "sign_out" %>
+
+</head>
+<body class="<%= 'home-background' if controller_name == 'home' && action_name == 'index' %>">
+
+  <header class="bg-primary text-white">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center py-3">
+        <div class="logo">
+          <%= image_tag "logo.png", alt: "Logo", class: "img-fluid", style: "width: 1cm; height: 1cm;" %>
+        </div>
+        <nav>
+          <% if user_signed_in? %>
+            <%= current_user.email %> |
+            <%= link_to "Edit account", edit_user_registration_path %> |
+
+
+            <%= link_to "Sign out", destroy_user_session_path, method: :delete, data: { turbolinks: false }, id: "sign_out_link" %>
+
+           <% else %>
+            <%= link_to "Sign in", new_user_session_path, class: "btn btn-light mx-2" %> |
+            <%= link_to "Sign up", new_user_registration_path, class: "btn btn-light mx-2" %>
+          <% end %>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <%= yield %>
+
+</body>
 </html>

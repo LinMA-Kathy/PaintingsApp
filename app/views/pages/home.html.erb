@@ -1,2 +1,18 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="home-content">
+  <h1 class="text-light">Welcome to Painting Gallery</h1>
+
+  <%= form_with(url: paintings_path, method: :get, local: true, class: 'search-form') do |form| %>
+    <div class="input-group">
+      <%= form.text_field :search, class: 'form-control', placeholder: 'Search...' %>
+      <div class="input-group-append">
+        <%= form.button(class: 'btn btn-primary') do %>
+          <i class="fas fa-search"></i>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="mt-4">
+    <%= link_to 'All Paintings', paintings_path, class: 'btn btn-secondary' %>
+  </div>
+</div>

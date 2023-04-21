@@ -1,0 +1,92 @@
+<style>
+  .grid-space {
+    padding: 0 10px;
+  }
+
+  .grid-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 10px;
+  }
+
+  .grid-separator {
+    margin-bottom: 10px;
+  }
+
+  .painting-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .content-container {
+    margin-top: 20px;
+  }
+</style>
+
+<div class="container content-container">
+
+<div class="container">
+  <div class="row" style="height: 100%;">
+    <div class="col-md-4 grid-space d-flex align-items-center">
+      <div class="painting-image">
+        <%= image_tag @painting.image_url, alt: @painting.title, class: "img-fluid" %>
+      </div>
+    </div>
+
+    <div class="col-md-4 d-flex flex-column justify-content-between grid-space" style="background-color: #e0e0e0;">
+      <div class="grid-container">
+        <div class="grid-separator">
+          <h2><%= @painting.title %></h2>
+          <h4><%= @painting.artist.full_name %></h4>
+          <h6><%= @painting.year %></h6>
+          <p><%= @painting.description %></p>
+        </div>
+        <div class="mt-3">
+          <%= link_to "Edit this painting", edit_painting_path(@painting) %> |
+          <%= link_to "Back to paintings", paintings_path %>
+          <%= button_to "Destroy this painting", painting_path(@painting), method: :delete, data: { confirm: "Are you sure?" } %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 grid-space" style="background-color: #f0f0f0;">
+      <div class="grid-container">
+        <h3>Reviews: <%= @painting.reviews.count %> | Views: <%= @painting.views %></h3>
+        <div class="reviews" style="height: 200px; overflow-y: scroll;">
+          <% @painting.reviews.each do |review| %>
+
+            <div>
+              <p><strong>Reviewer:</strong> <%= review.reviewer %>,
+              <strong>Rating:</strong> <%= review.rating %>,
+              <strong>Comment:</strong> <%= review.comment %></p>
+              <hr />
+            </div>
+          <% end %>
+        </div>
+
+        <h4>Add a Review</h4>
+        <%= form_with(model: [@painting, @painting.reviews.build], local: true) do |form| %>
+          <div>
+            <%= form.label :reviewer %>
+            <%= form.text_field :reviewer %>
+          </div>
+          <div>
+            <%= form.label :rating %>
+            <%= form.number_field :rating, min: 1, max: 5 %>
+          </div>
+          <div>
+            <%= form.label :comment %>
+            <%= form.text_area :comment %>
+          </div>
+          <div>
+            <%= form.submit "Submit Review" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

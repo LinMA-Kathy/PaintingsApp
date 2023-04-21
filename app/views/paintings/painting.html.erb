@@ -1,0 +1,26 @@
+<div id="<%= dom_id painting %>">
+  <p>
+    <strong>Title:</strong>
+    <%= painting.title %>
+  </p>
+
+  <p>
+    <strong>Artist:</strong>
+    <%= painting.artist.first_name %> <%= painting.artist.last_name %>
+  </p>
+
+  <p>
+  <strong>Year:</strong>
+  <%= painting.year %>
+  </p>
+
+  <p>
+    <strong>Description:</strong>
+    <%= painting.description %>
+  </p>
+
+  <p>
+   <strong>Image url:</strong>
+   <%= painting.image_url %>
+  </p>
+</div>
