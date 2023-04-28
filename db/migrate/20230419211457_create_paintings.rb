@@ -5,9 +5,9 @@ class CreatePaintings < ActiveRecord::Migration[7.0]
       t.string :description
       t.integer :year
       t.integer :views
+      t.integer :review
       t.string :image_url
-      t.references :artist, null: false, foreign_key: true
-
+      t.references :artist, foreign_key: true, null: true
       t.timestamps
     end
   end

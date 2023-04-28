@@ -1,10 +1,27 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
 # Examples:
-#
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+require 'open-uri'
+
+def attach_image_from_url(painting, image_url)
+  return unless image_url.present?
+
+  begin
+    image = URI.open(image_url)
+    painting.image.attach(io: image, filename: File.basename(image.path), content_type: image.content_type)
+  rescue => e
+    puts "Error attaching image: #{e.message}"
+  end
+end
+
+user = User.find_or_create_by!(email: 'example@example.com') do |u|
+  u.password = 'password'
+  u.password_confirmation = 'password'
+end
+
 artist1 = Artist.create(first_name: "Vincent", last_name: "van Gogh")
 artist2 = Artist.create(first_name: "Edvard", last_name: "Munch")
 artist3 = Artist.create(first_name: "Leonardo", last_name: "da Vinci")
@@ -14,6 +31,7 @@ artist6 = Artist.create(first_name: "Salvador", last_name: "Dalí")
 artist7 = Artist.create(first_name: "Georgia", last_name: "O'Keeffe")
 artist8 = Artist.create(first_name: "Frida", last_name: "Kahlo")
 artist9 = Artist.create(first_name: "Gustav", last_name: "Klimt")
+artist10 = Artist.create(first_name: "Jackson", last_name: "Pollock")
 
 painting1 = Painting.create(
   title: "The Starry Night",
@@ -21,8 +39,10 @@ painting1 = Painting.create(
   description: "The Starry Night is an oil-on-canvas painting by the Dutch Post-Impressionist painter Vincent van Gogh. Painted in June 1889, it depicts the view from the east-facing window of his asylum room at Saint-Rémy-de-Provence, just before sunrise, with the addition of an imaginary village.It has been in the permanent collection of the Museum of Modern Art in New York City since 1941, acquired through the Lillie P. Bliss Bequest. Widely regarded as Van Gogh's magnum opus,The Starry Night is one of the most recognizable paintings in Western art.",
   year: 1889,
   artist: artist1,
-  views: 0
+  views: 0,
+  user: user
 )
+attach_image_from_url(painting1, painting1.image_url)
 
 puts "Painting 1 created: #{painting1.inspect}"
 
@@ -32,9 +52,10 @@ painting2 = Painting.create(
   description: "The Scream is a composition created by Norwegian artist Edvard Munch in 1893. The Norwegian name of the piece is Skrik (Shriek), and the German title under which it was first exhibited Der Schrei der Natur (The Scream of Nature).The agonized face in the painting has become one of the most iconic images of art, seen as symbolizing the anxiety of the human condition. Munch's work, including The Scream, would go on to have a formative influence on the Expressionist movement.",
   year: 1893,
   artist: artist2,
-  views: 0
+  views: 0,
+  user: user
 )
-
+attach_image_from_url(painting2, painting2.image_url)
 puts "Painting 2 created: #{painting2.inspect}"
 
 painting3 = Painting.create(
@@ -43,8 +64,10 @@ painting3 = Painting.create(
   description: "The Mona Lisa is a half-length portrait painting by Italian artist Leonardo da Vinci.Considered an archetypal masterpiece of the Italian Renaissance,it has been described as the best known, the most visited, the most written about, the most sung about, the most parodied work of art in the world.The painting's novel qualities include the subject's enigmatic expression,monumentality of the composition, the subtle modelling of forms, and the atmospheric illusionism.",
   year: 1503,
   artist: artist3,
-  views: 0
+  views: 0,
+  user: user
 )
+attach_image_from_url(painting3, painting3.image_url)
 
 painting4 = Painting.create(
   title: "Girl with a Pearl Earring",
@@ -52,8 +75,10 @@ painting4 = Painting.create(
   description: "The painting is a tronie, the Dutch 17th-century description of a head that was not meant to be a portrait. It depicts a European girl wearing exotic dress, an oriental turban, and what appears to be a very large pearl as an earring.In 2014, Dutch astrophysicist Vincent Icke [nl] raised doubts about the material of the earring and argued that it looks more like polished tin than pearl on the grounds of the specular reflection, the pear shape and the large size of the earring.",
   year: 1665,
   artist: artist4,
-  views: 0
+  views: 0,
+  user: user
 )
+attach_image_from_url(painting4, painting4.image_url)
 
 painting5 = Painting.create(
   title: "Sunflowers",
@@ -61,8 +86,10 @@ painting5 = Painting.create(
   description: "Sunflowers (original title, in French: Tournesols) is the title of two series of still life paintings by the Dutch painter Vincent van Gogh. The first series, executed in Paris in 1887, depicts the flowers lying on the ground, while the second set, made a year later in Arles, shows a bouquet of sunflowers in a vase. In the artist's mind, both sets were linked by the name of his friend Paul Gauguin, who acquired two of the Paris versions. About eight months later, Van Gogh hoped to welcome and impress Gauguin again with Sunflowers, now part of the painted Décoration for the Yellow House that he prepared for the guestroom of his home in Arles, where Gauguin was supposed to stay. After Gauguin's departure, Van Gogh imagined the two major versions as wings of the Berceuse Triptych, and finally, he included them in his Les XX in Bruxelles exhibit.",
   year: 1888,
   artist: artist1,
-  views: 0
+  views: 0,
+  user: user
 )
+attach_image_from_url(painting5, painting5.image_url)
 
 painting6 = Painting.create(
   title: "The Persistence of Memory",
@@ -70,8 +97,10 @@ painting6 = Painting.create(
   description: "The Persistence of Memory (Catalan: La persistència de la memòria) is a 1931 painting by artist Salvador Dalí and one of the most recognizable works of Surrealism. First shown at the Julien Levy Gallery in 1932, since 1934 the painting has been in the collection of the Museum of Modern Art (MoMA) in New York City, which received it from an anonymous donor. It is widely recognized and frequently referred to in popular culture,[1] and sometimes referred to by more descriptive titles, such as Melting Clocks, The Soft Watches or The Melting Watches.",
   year: 1931,
   artist: artist6,
-  views: 0
-)
+  views: 0,
+  user: user
+  )
+  attach_image_from_url(painting6, painting6.image_url)
 
 painting7 = Painting.create(
   title: "Head of a Woman",
@@ -79,8 +108,10 @@ painting7 = Painting.create(
   description: "Head of a Woman, a small brush drawing with pigment, depicts a young woman with her head tilted and her eyes downcast. Her posture recalls the Virgin Mary in Leonardo’s The Virgin of the Rocks, suggesting that the drawing may have served as a model. The drawing’s nickname, La scapigliata, translates to “disheveled” and refers to the young woman’s wayward strands of hair. The loosely sketched tendrils and shoulders contrast with the highly finished face, where Leonardo gently modeled the woman’s delicate features, from her heavy eyelids to her tender lips. It reveals Leonardo’s fluid means of working, utilizing both expressive drawing to create form and controlled layering to provide detail.",
   year: 1500,
   artist: artist3,
-  views: 0
+  views: 0,
+  user: user
 )
+attach_image_from_url(painting7, painting7.image_url)
 
 painting8 = Painting.create(
   title: "The Two Fridas",
@@ -88,8 +119,10 @@ painting8 = Painting.create(
   description: "The Two Fridas (Las dos Fridas in Spanish) is an oil painting by Mexican artist Frida Kahlo. The painting was the first large-scale work done by Kahlo and is considered one of her most notable paintings.[1] It is a double self-portrait, depicting two versions of Kahlo seated together. One is wearing a white European-style Victorian dress while the other is wearing a traditional Tehuana dress.The painting is housed at the Museo de Arte Moderno in Mexico City.",
   year: 1939,
   artist: artist8,
-  views: 0
+  views: 0,
+  user: user
 )
+attach_image_from_url(painting8, painting8.image_url)
 
 painting9 = Painting.create(
   title: "Water Lilies",
@@ -97,8 +130,10 @@ painting9 = Painting.create(
   description: "Water Lilies is a series of approximately 250 oil paintings by French Impressionist Claude Monet (1840–1926). The paintings depict his flower garden at his home in Giverny, and were the main focus of his artistic production during the last thirty years of his life. Many of the works were painted while Monet suffered from cataracts.",
   year: 1919,
   artist: artist5,
-  views: 0
+  views: 0,
+  user: user
 )
+attach_image_from_url(painting9, painting9.image_url)
 
 painting10 = Painting.create(
   title: "The Kiss",
@@ -106,5 +141,21 @@ painting10 = Painting.create(
   description: "The Kiss (in German Der Kuss) is an oil-on-canvas painting with added gold leaf, silver and platinum by the Austrian Symbolist painter Gustav Klimt.It was painted at some point in 1907 and 1908, during the height of what scholars call his Golden Period. It was exhibited in 1908 under the title Liebespaar (the lovers) as stated in the catalogue of the exhibition. The painting depicts a couple embracing each other, their bodies entwined in elaborate beautiful robes decorated in a style influenced by the contemporary Art Nouveau style and the organic forms of the earlier Arts and Crafts movement.",
   year: 1908,
   artist: artist9,
-  views: 0
+  views: 0,
+  user: user
 )
+attach_image_from_url(painting10, painting10.image_url)
+
+
+painting11 = Painting.create(
+  title: "No. 5, 1948",
+  image_url: "https://www.jackson-pollock.org/images/paintings/number-5.jpg",
+  description: "No. 5, 1948 is a painting by American painter Jackson Pollock, an important figure in the abstract expressionist movement. The painting features his famous 'drip technique,' which consists of pouring or splashing liquid paint onto the canvas.",
+  year: 1948,
+  artist: artist10,
+  views: 0,
+  user: user
+)
+
+attach_image_from_url(painting11, painting11.image_url)
+puts "Painting 11 created: #{painting11.inspect}"

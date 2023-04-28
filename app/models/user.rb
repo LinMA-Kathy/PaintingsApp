@@ -5,6 +5,11 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :email, uniqueness: true
-
+  has_many :artists
+  has_many :paintings, through: :artists
   has_many :reviews, through: :paintings
+
+  def main_artist
+    artists.first || artists.build
+  end
 end

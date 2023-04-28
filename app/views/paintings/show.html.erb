@@ -32,7 +32,8 @@
   <div class="row" style="height: 100%;">
     <div class="col-md-4 grid-space d-flex align-items-center">
       <div class="painting-image">
-        <%= image_tag @painting.image_url, alt: @painting.title, class: "img-fluid" %>
+        <%= image_tag (@painting.image_url.presence || "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?cs=srgb&dl=pexels-pixabay-268533.jpg&fm=jpg"), alt: @painting.title, class: "img-fluid" %>
+
       </div>
     </div>
 

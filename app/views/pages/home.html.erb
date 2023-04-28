@@ -1,18 +1,30 @@
-<div class="home-content">
-  <h1 class="text-light">Welcome to Painting Gallery</h1>
+<style>
+  .bg-image {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("<%= cl_image_path("https://blog.artsper.com/wp-content/uploads/2019/04/tableau-la-nuit-etoilee-vincent-van-gogh-75-x-55-c-1.jpg") %>");
+  }
+</style>
 
-  <%= form_with(url: paintings_path, method: :get, local: true, class: 'search-form') do |form| %>
-    <div class="input-group">
-      <%= form.text_field :search, class: 'form-control', placeholder: 'Search...' %>
-      <div class="input-group-append">
-        <%= form.button(class: 'btn btn-primary') do %>
-          <i class="fas fa-search"></i>
-        <% end %>
-      </div>
+<div class="bannerHP bg-image">
+  <div class=" home container">
+    <h1>Welcome to Painting Gallery</h1>
+    <br>
+    <div class="text-center">
+      <%= form_tag paintings_path, method: :get, class: "search-form" do %>
+        <div class="input-group">
+          <%= text_field_tag :search, params[:search], class: "form-control", placeholder: "Search Paintings" %>
+
+          <div class="input-group-append">
+            <%= button_tag class: "btn btn-primary", type: :submit do %>
+              <i class="fas fa-search"></i>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+      <br>
+
+      <%= link_to paintings_path, class: "btn btn-secondary" do %>
+        <strong>Show all paintings</strong>
+      <% end %>
     </div>
-  <% end %>
-
-  <div class="mt-4">
-    <%= link_to 'All Paintings', paintings_path, class: 'btn btn-secondary' %>
   </div>
 </div>

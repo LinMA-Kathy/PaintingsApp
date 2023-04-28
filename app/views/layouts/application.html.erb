@@ -6,36 +6,36 @@
   <%= csp_meta_tag %>
 
   <%= stylesheet_link_tag 'application', media: 'all' %>
+
   <%= javascript_pack_tag 'application' %>
-
-
 
   <%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css", crossorigin: "anonymous" %>
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <%= javascript_include_tag "https://code.jquery.com/jquery-3.6.0.min.js", crossorigin: "anonymous" %>
-  <%= javascript_include_tag "sign_out" %>
 
 </head>
+<%= content_for?(:body_header) ? yield(:body_header) : '' %>
+
 <body class="<%= 'home-background' if controller_name == 'home' && action_name == 'index' %>">
 
   <header class="bg-primary text-white">
     <div class="container">
       <div class="d-flex justify-content-between align-items-center py-3">
         <div class="logo">
-          <%= image_tag "logo.png", alt: "Logo", class: "img-fluid", style: "width: 1cm; height: 1cm;" %>
+          <%= image_tag "https://codettes.be/wp-content/uploads/2016/10/lewagon.png", alt: "Logo", class: "img-fluid", style: "width: 1cm; height: 1cm;" %>
         </div>
         <nav>
           <% if user_signed_in? %>
             <%= current_user.email %> |
             <%= link_to "Edit account", edit_user_registration_path %> |
 
-
-            <%= link_to "Sign out", destroy_user_session_path, method: :delete, data: { turbolinks: false }, id: "sign_out_link" %>
+            <%= link_to "Sign out", destroy_user_session_path, data: { confirm: 'Are you sure you want to log out?' }, class: "btn btn-light mx-2", data: { turbo: false } %>
 
            <% else %>
-            <%= link_to "Sign in", new_user_session_path, class: "btn btn-light mx-2" %> |
-            <%= link_to "Sign up", new_user_registration_path, class: "btn btn-light mx-2" %>
+            <%= link_to "Sign in", new_user_session_path, class: "btn btn-light mx-2", data: { turbo: false } %>
+            <%= link_to "Sign up", new_user_registration_path, class: "btn btn-light mx-2", data: { turbo: false } %>
+
           <% end %>
         </nav>
       </div>

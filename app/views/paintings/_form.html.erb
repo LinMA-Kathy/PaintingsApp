@@ -1,14 +1,12 @@
-<%# frozen_string_literal: true %>
 <%= simple_form_for(@painting) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs">
-    <% attributes.each do |attribute| %>
-      <%= f.send(attribute.reference? ? :association : :input, attribute.name) %>
-    <% end %>
-    <%= f.label :remote_image_url, "Image URL" %>
-    <%= f.text_field :remote_image_url %>
+    <%= f.input :title %>
+    <%= f.input :description %>
+    <%= f.input :year %>
+    <%= f.input :remote_image_url, label: "Image URL" %>
   </div>
 
   <div class="form-actions">
